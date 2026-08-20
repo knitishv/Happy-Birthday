@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love</title>
+    <!-- Importing beautiful fonts for the text and poetry -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffe6ea 0%, #fdfbfb 100%);
+            overflow: hidden; /* Prevents scrollbars from random image placement */
+            color: #4a4a4a;
+        }
+
+        /* Container for the randomly placed images */
+        #bg-images-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none; /* Lets clicks pass through to the buttons */
+        }
+
+        .random-bg-img {
+            position: absolute;
+            max-width: 200px;
+            max-height: 250px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border: 6px solid white;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: all 1s ease;
+            animation: floatImage 10s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatImage {
+            0% { transform: translateY(0px) rotate(var(--rot)); }
+            100% { transform: translateY(-15px) rotate(calc(var(--rot) + 5deg)); }
+        }
+
+        /* The Main Interactive Container (Pages inside Pages) */
+        #app-container {
+            position: relative;
+            z-index: 10;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 32px 0 rgba(214, 51, 132, 0.15);
+            width: 100%;
+            max-width: 650px;
+            min-height: 450px;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Page Transition Logic */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Typography */
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: #d63384;
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        .poetry {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #b02a6c;
+            line-height: 1.6;
+        }
+
+        .hindi-text {
+            font-size: 1.15rem;
+            font-weight: 400;
+            line-height: 1.9;
+        }
+
+        /* Navigation Buttons */
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            background-color: #d63384;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #b02a6c;
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background-color: #ffb3d1;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-center {
+            margin: 0 auto;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff4d6d;
+            animation: floatUp 4s linear infinite;
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .glass-card { padding: 40px 25px; min-height: 500px; }
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.2rem; }
+            p { font-size: 1rem; }
+            .poetry { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- This container will hold the randomly placed images from your GitHub folder -->
+    <div id="bg-images-container"></div>
+
+    <div id="app-container">
+        <div class="glass-card">
+            
+            <!-- PAGE 0: Cover -->
+            <div class="page active" id="page-0">
+                <h1>For My Beautiful Wife</h1>
+                <p>I made this little space on the internet just for you.</p>
+                <button class="btn-center" onclick="nextPage()">Tap to Open 💖</button>
+            </div>
+
+            <!-- PAGE 1: The Memory -->
+            <div class="page" id="page-1">
+                <h2>A Sweet Memory...</h2>
+                <p>In a fine morning of 10th August, you were at home and I was in night shift. When I came back from office in the morning, I was thinking about you. I was imagining you sleeping and I couldn't stop smiling. 
+                
+                It was like, I was constantly looking at you while you are in deep sleep, how cute you looked 🥰. You looked like a pretty little baby girl 😍. 
+                
+                I were so deep into thinking about you that I couldn't stop myself from writing a small piece of poetry for you while you are away 💖.</p>
+            </div>
+
+            <!-- PAGE 2: The Poetry -->
+            <div class="page" id="page-2">
+                <h2>For You...</h2>
+                <p class="poetry">How do I describe your beauty, I don't know.
+                How do I express my love, I don't know.
+                How do I convey your importance in my life, my life.
+                The world feels like passing by me when I am alone, but how do I tell the same world feels alive when you are beside me.
+                I could do this, I could do that, I could do a lot of things; but how do I tell you all my deed feels worthless without you, I don't know.</p>
+            </div>
+
+            <!-- PAGE 3: The Birthday Wish -->
+            <div class="page" id="page-3">
+                <h1>Happy Birthday to my LOVE! ♥️💖</h1>
+                <p>You’re the person I can talk to about literally anything, laugh with over the dumbest things, annoy endlessly, and still feel completely comfortable being myself around. 🥰
+                
+                I’m happiest person on earth that I got my best friend as you in my childhood days. 😍
+                
+                Happy Birthday, wifey! 🫶🏻
+                We are partners, best friends, and we will annoy each other for the rest of our lives. 😂❤️😘</p>
+            </div>
+
+            <!-- PAGE 4: The Promise (Hindi & English) -->
+            <div class="page" id="page-4">
+                <h2>A Promise...</h2>
+                <p class="hindi-text">तुम पूछती हो ना कि मुझे तुमसे क्या चाहिए?
+                मुझे बस तुम चाहिए। ज़िंदगी भर तुम्हारा साथ चाहिए। क्या तुम ज़िंदगी भर मेरा साथ दोगी? 🙂
+                मैं वादा करता हूँ, हम दुख में साथ रहेंगे, सुख में साथ रहेंगे।</p>
+                
+                <p>We will be unstoppable together. 
+                
+                I love you because you are yourself. You don't care about others. Whatever you do, you do with your pure heart.</p>
+                
+                <p class="hindi-text">हाँ, तुम बिल्कुल वैसी हो, जैसी मैंने सोचा था।</p>
+            </div>
+
+            <!-- Controls (Hidden on Cover Page) -->
+            <div class="controls" id="controls" style="display: none;">
+                <button id="prevBtn" onclick="prevPage()">← Back</button>
+                <button id="nextBtn" onclick="nextPage()">Next →</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // --- PAGE NAVIGATION LOGIC ---
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.page');
+        const controls = document.getElementById('controls');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updatePages() {
+            pages.forEach((page, index) => {
+                page.classList.remove('active');
+                if (index === currentPage) {
+                    page.classList.add('active');
+                }
+            });
+
+            // Show controls only after the cover page
+            if (currentPage > 0) {
+                controls.style.display = 'flex';
+            } else {
+                controls.style.display = 'none';
+            }
+
+            // Manage button states
+            prevBtn.disabled = currentPage === 1;
+            
+            if (currentPage === pages.length - 1) {
+                nextBtn.style.display = 'none'; // Hide next button on last page
+                triggerFinalCelebration();
+            } else {
+                nextBtn.style.display = 'block';
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                updatePages();
+                createFloatingHearts(5); // spawn some hearts on next page
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePages();
+            }
+        }
+
+        // --- RANDOM BACKGROUND IMAGES LOGIC ---
+        // List the names of the images you upload to the GitHub folder here:
+        const photoFileNames = [
+            'photo1.jpg', 'photo2.jpg', 'photo3.jpg', 
+            'photo4.jpg', 'photo5.jpg', 'photo6.jpg'
+        ];
+        const folderName = 'Birthday girl images/';
+        const bgContainer = document.getElementById('bg-images-container');
+
+        function scatterImages() {
+            photoFileNames.forEach(fileName => {
+                const img = document.createElement('img');
+                
+                // Construct the path (e.g., Birthday girl images/photo1.jpg)
+                img.src = folderName + fileName;
+                img.className = 'random-bg-img';
+                
+                // If an image isn't uploaded yet, this prevents a broken image icon from showing
+                img.onerror = function() {
+                    this.style.display = 'none';
+                };
+
+                // Randomize positions
+                const randomTop = Math.floor(Math.random() * 70) + 5; // 5% to 75%
+                const randomLeft = Math.floor(Math.random() * 80) + 5; // 5% to 85%
+                const randomRotation = Math.floor(Math.random() * 40) - 20; // -20deg to 20deg
+                
+                img.style.top = randomTop + '%';
+                img.style.left = randomLeft + '%';
+                img.style.setProperty('--rot', randomRotation + 'deg');
+                
+                bgContainer.appendChild(img);
+            });
+        }
+
+        // --- VISUAL EFFECTS LOGIC ---
+        function createFloatingHearts(amount) {
+            for (let i = 0; i < amount; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '♥️';
+                    heart.className = 'heart';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => { heart.remove(); }, 6000);
+                }, i * 300);
+            }
+        }
+
+        function triggerFinalCelebration() {
+            createFloatingHearts(30);
+            // You can also add confetti logic here if desired!
+        }
+
+        // Initialize the app
+        window.onload = () => {
+            scatterImages();
+        };
+
+    </script>
+</body>
+</html>
