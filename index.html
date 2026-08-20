@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This line is crucial: it forces mobile browsers to fit the website to the screen -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday, My Love</title>
     <style>
@@ -15,28 +14,55 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #ffe6e6; /* Soft pink background */
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
             color: #333;
+            gap: 30px; /* Space between the letter and the scrapbook */
         }
-        #scrapbook-container {
+        /* Shared styling for both the letter and the scrapbook */
+        .card {
             background: white;
             width: 100%;
             max-width: 500px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            padding: 20px;
+            padding: 30px 20px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        /* The Image Area */
+        
+        /* The Letter Section */
+        #letter-section h1 {
+            color: #d63384;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        .prose {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #444;
+            text-align: left;
+        }
+        .poem {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-style: italic;
+            color: #d63384;
+            text-align: center;
+            background: #fff0f5;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        /* The Scrapbook Image Area */
         .photo-frame {
             width: 100%;
-            /* Limits height on mobile so the text and buttons still fit on screen */
             max-height: 50vh; 
             border-radius: 10px;
             overflow: hidden;
@@ -51,18 +77,20 @@
             width: 100%;
             height: 100%;
             max-height: 50vh;
-            /* contain ensures the whole image is visible without weird cropping */
             object-fit: contain; 
             border-radius: 10px;
         }
-        /* The Text Area */
+        
+        /* The Scrapbook Text Area */
         #message-text {
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 25px;
-            min-height: 100px; /* Prevents buttons from jumping around too much */
-            white-space: pre-wrap; /* Keeps your paragraph line breaks */
+            min-height: 100px; 
+            white-space: pre-wrap; 
+            width: 100%;
         }
+        
         /* Navigation Buttons */
         .controls {
             display: flex;
@@ -98,7 +126,21 @@
 </head>
 <body>
 
-    <div id="scrapbook-container">
+    <!-- Separate Section for your heartfelt messages -->
+    <div id="letter-section" class="card">
+        <h1>To My Love</h1>
+        <p class="prose">In a fine morning of 10th August, you were at home and I was in night shift. When I came back from office in the morning, I was thinking about you. I was imagining you sleeping and I couldn't stop smiling. It was like, I was constantly looking at you while you are in deep sleep, how cute you looked 🥰. You looked like a pretty little baby girl 😍. I were so deep into thinking about you that I couldn't stop myself from writing a small piece of poetry for you while you are away 💖.</p>
+        <p class="poem">
+            How do I describe your beauty, I don't know.<br>
+            How do I express my love, I don't know.<br>
+            How do I convey your importance in my life, my life.<br>
+            The world feels like passing by me when I am alone, but how do I tell the same world feels alive when you are beside me.<br>
+            I could do this, I could do that, I could do a lot of things; but how do I tell you all my deed feels worthless without you, I don't know.
+        </p>
+    </div>
+
+    <!-- The Interactive Scrapbook -->
+    <div id="scrapbook-container" class="card">
         <div class="photo-frame">
             <img id="current-photo" src="" alt="Memory">
         </div>
@@ -114,16 +156,14 @@
     </div>
 
     <script>
-        // This array links each of your 22 photos to a specific message.
-        // You can edit the text inside the quotes for any photo.
         const memoryData = [
             {
                 image: "Birthday girl images/photo1.jpg",
-                text: "In a fine morning of 10th August, you were at home and I was in night shift. When I came back from office in the morning, I was thinking about you. I was imagining you sleeping and I couldn't stop smiling. It was like, I was constantly looking at you while you are in deep sleep, how cute you looked 🥰. You looked like a pretty little baby girl 😍. I were so deep into thinking about you that I couldn't stop myself from writing a small piece of poetry for you while you are away 💖."
+                text: "Keep smiling like this forever, smile makes you more beautiful!! 😍"
             },
             {
                 image: "Birthday girl images/photo2.jpg",
-                text: "How do I describe your beauty, I don't know.\nHow do I express my love, I don't know.\nHow do I convey your importance in my life, my life.\nThe world feels like passing by me when I am alone, but how do I tell the same world feels alive when you are beside me.\nI could do this, I could do that, I could do a lot of things; but how do I tell you all my deed feels worthless without you, I don't know."
+                text: "The way you treated the child beside you, I was mesmerized by your heartfulness. Whenever I look at this photo, I remember the moment that we spent together in the Bihar Museum and I captured your charming smile 🥰."
             },
             {
                 image: "Birthday girl images/photo3.jpg",
@@ -162,14 +202,11 @@
         let currentIndex = 0;
 
         function updatePage() {
-            // Update the image and text based on the current index
             document.getElementById('current-photo').src = memoryData[currentIndex].image;
             document.getElementById('message-text').textContent = memoryData[currentIndex].text;
             
-            // Update the counter at the bottom
             document.getElementById('counter-text').textContent = `Memory ${currentIndex + 1} of ${memoryData.length}`;
 
-            // Disable/Enable buttons if at the beginning or end
             document.getElementById('prev-btn').disabled = currentIndex === 0;
             document.getElementById('next-btn').disabled = currentIndex === memoryData.length - 1;
         }
@@ -179,7 +216,6 @@
             updatePage();
         }
 
-        // Load the first photo and message when the page opens
         window.onload = updatePage;
 
     </script>
